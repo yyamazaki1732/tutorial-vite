@@ -1,17 +1,13 @@
 import classes from "./index.module.scss";
-import { useState } from "react";
+// import { useState } from "react";
 import { Square } from "./Square";
+import PropTypes from "prop-types";
 
-export const Board = () => {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
-
+export const Board = ({ xIsNext, squares, onPlay }) => {
   // ===============================================
   // # switch
   // ===============================================
   function handleClick(i) {
-    console.log("squares", squares);
-
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
@@ -22,8 +18,7 @@ export const Board = () => {
     } else {
       nextSquares[i] = "O";
     }
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    onPlay(nextSquares);
   }
 
   // ===============================================
@@ -84,4 +79,10 @@ export const Board = () => {
       </div>
     </>
   );
+};
+
+Board.propTypes = {
+  xIsNext: PropTypes.any, // または適切なプロパティ型を指定する
+  onPlay: PropTypes.func,
+  squares: PropTypes.any,
 };
